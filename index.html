@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WikiViz Network</title>
+    <link href="https://unpkg.com/vis-network/standalone/umd/vis-network.min.css" rel="stylesheet" type="text/css" />
+    <style>
+		* {
+		box-sizing: border-box;
+		}
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f6f9;
+        }
+        h1 {
+			color: #333;
+        }
+		
+		.site-container {
+			display: block;
+			width: 100%;
+			gap: 20px;
+		}
+
+		#network-container, #parameters {
+			width: 100%;
+			height: 600px;
+            border: 1px solid #ccc;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+
+			margin-bottom: 20px;
+		}
+
+		#parameters {
+			padding: 20px;
+			overflow-y: auto;
+		}
+		
+        .instruction {
+            color: #666;
+            font-style: italic;
+            margin-bottom: 15px;
+        }
+
+		@media (min-width: 768px) {
+			.site-container {
+				display: flex;
+				gap: 20px; /* Space between the two divs */
+			}
+
+			#network-container {
+				width: calc(65% - 10px); /* Adjusts for the 20px gap */
+				margin-bottom: 0; /* Remove mobile margin */
+			}
+
+			#parameters {
+				width: calc(35% - 10px); /* Adjusts for the 20px gap */
+				margin-bottom: 0; /* Remove mobile margin */
+				overflow-y: auto;
+			}
+			#article-form, .header {
+				display: flex;
+			}
+		}
+
+		#article-form {
+			margin-left: auto;
+			margin-top: auto;
+			margin-bottom: 20px;
+			align-items: stretch; /* Forces both elements to be the exact same height */
+			gap: 10px;
+		}
+		#article-input, #article-submit {
+			box-sizing: border-box;
+			height: 50px;         /* Now both will be exactly 50px tall total */
+			border-radius: 4px;
+		}
+
+		#article-input {
+			padding: 0px 20px;
+			font-size: 20px;
+			border: 1px solid #ccc;
+		}
+		#article-submit {
+			padding: 0px 20px;
+			border: none;
+			background-color: #6dacff;
+			color: white;
+			cursor: pointer;
+			font-size: 18px;
+		}
+
+		#slider-subtext, #paraCount {
+			font-size: 0.85em;   /* Makes it slightly smaller than normal text */
+			color: #7f8c8d;      /* Dull slate gray */
+			margin-top: 2px;     /* Keeps it close to the slider */
+			margin-bottom: 12px; /* Adds space before the text input starts */
+		}
+		#slider-group {
+			margin-right: 20px;
+		}
+
+    </style>
+</head>
+<body>
+
+	<div class="header">
+		<div>
+
+			<h1>WikiViz</h1>
+			<p class="instruction">Click on any node to traverse related wikipedia articles!</p>
+		</div>
+
+		<form id="article-form" onsubmit="event.preventDefault(); fetchWikiLinks(document.getElementById('article-input').value.trim(), true)">
+			<span id="paraCount">3</span>
+			<div id="slider-group">
+				<input type="range" min="1" max="10" value="3" id="maxParasSlider">
+				<div id="slider-subtext">
+					(# of paragraphs traversed for making links)
+				</div>
+			</div>
+			<input type="text" placeholder="Enter a starting article!" id="article-input">
+			<button type="submit" id="article-submit">Go</button>
+		</form>
+	</div>
+	<div class="site-container">
+		<div id="network-container"></div>
+		<div id="parameters">
+			<h1 id="article-title"></h1>
+			<div id="parameter-content" class="instruction">
+				<!-- <p id="para1">An application programming interface (API) is a connection between computers or between computer programs. It is a type of software interface, offering a service to other pieces of software.[1][2] A document or standard that describes how to build such a connection or interface is called an API specification. A computer system that meets this standard is said to implement or expose an API. The term API may refer either to the specification or to the implementation. </p>
+				<p id="para2">In contrast to a user interface, which connects a computer to a person, an application programming interface connects computers or pieces of software to each other. It is not intended to be used directly by a person (the end user) other than a computer programmer[2] who is incorporating it into software. An API is often made up of different parts which act as tools or services that are available to the programmer. A program or a programmer that uses one of these parts is said to call that portion of the API. The calls that make up the API are also known as subroutines, methods, requests, or endpoints. An API specification defines these calls, meaning that it explains how to use or implement them.</p> -->
+
+			<div></div>
+		</div>
+	</div>
+
+    <script type="text/javascript" src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
+    <script src="app.js" defer></script>
+</body>
+</html>
